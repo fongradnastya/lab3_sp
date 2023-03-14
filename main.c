@@ -44,6 +44,12 @@ int main(){
         else if(command == 5){
             findCountry(head);
         }
+        else if(command == 6){
+            getTheMostPopulous(head);
+        }
+        else if(command == 7){
+            getHightPopulate(head);
+        }
         else if(command == 8){
             freeCountries(head);
             end = 1;

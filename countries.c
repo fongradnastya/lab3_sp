@@ -142,7 +142,7 @@ Node* findCountry(Node* head){
         }
         head = head->next;
     }
-    printf("Country %s wasn't found", name);
+    printf("Country %s wasn't found\n", name);
     return NULL;
 }
 
@@ -154,13 +154,8 @@ void printChangeMenu(){
     printf("_________________________________________________\n");
 }
 
-void changeCountry(Node* head){
-    int num = getCountriesQuantity(head);
-    if(num == 0){
-        printf("Nothing to change.");
-    }
-    printf("There are %d countries", num);
-    Node* node = findCountry(head);
+void changeCountry(Node** head){
+    Node* node = findCountry(*head);
     if(node != NULL){
         printChangeMenu();
         int command;
@@ -172,6 +167,7 @@ void changeCountry(Node* head){
         if(command == 1){
             printf("Please, enter the country name: ");
             char* name = GetString();
+            node->value.name = name;
         }
         else if(command == 2){
             long population;
@@ -186,6 +182,7 @@ void changeCountry(Node* head){
                     printf("This value should be positive!\n");
                 }
             }
+            node->value.population = population;
         }
         else if(command == 3){
             long area;
@@ -200,9 +197,10 @@ void changeCountry(Node* head){
                     printf("This value should be positive!\n");
                 }
             }
+            node->value.area = area;
         }
         else{
-            printf("Wrong command");
+            printf("Wrong command\n");
         }
     }
 }
@@ -215,5 +213,49 @@ void freeCountries(Node* head){
         free(current->value.name);
         free(current);
         current = next;
+    }
+}
+
+void getTheMostPopulous(Node* head){
+    long maxDensity = 0;
+    Node* temp = head;
+    while(temp != NULL){
+        long density = temp->value.population / temp->value.area;
+        if(density > maxDensity){
+            maxDensity = density;
+        }
+        temp = temp->next;
+    }
+    printf("Max population density is %d people per unit\n", maxDensity);
+    printf("Countries:\n");
+    temp = head;
+    while(temp != NULL){
+        long density = temp->value.population / temp->value.area;
+        if(density == maxDensity){
+            printCountry(temp->value);
+        }
+        temp = temp->next;
+    }
+}
+
+void getHightPopulate(Node* head){
+    long minPopulation;
+    int res = 0;
+    while(res != 1){
+        printf("Please, enter min population: ");
+        res = InputLong(&minPopulation);
+        if(res == 0){
+            printf("This value should be digit!\n");
+        }
+        else if(res == -1){
+            printf("This value should be positive!\n");
+        }  
+    }
+    Node* temp = head;
+    while(temp != NULL){
+        if(temp->value.population >= minPopulation){
+            printCountry(temp->value);
+        }
+        temp = temp->next;
     }
 }
