@@ -80,18 +80,6 @@ void appendCountry(Node** head, Node* newNode){
     }
 }
 
-Node* findCountry(Node* head){
-    printf("Please, enter the country name:");
-    char* name = GetString();
-    while(head != NULL){
-        if(head->value.name == name){
-            return head;
-        }
-        head = head->next;
-    }
-    return NULL;
-}
-
 void deleteCountry(Node** head){
     Node* temp = *head;
     Node* prevNode = NULL;
@@ -100,25 +88,25 @@ void deleteCountry(Node** head){
     if (temp == NULL){
         printf("Nothing to delete\n");
     }
-    else if (temp->value.name == name){
+    else if (strcmp(temp->value.name, name) == 0){
         *head = (*head)->next;
-        printf("The country was successfully deleted");
+        printf("The country was successfully deleted\n");
     }
     else{
         while(temp->next != NULL){
-            if(temp->value.name == name){
+            if(strcmp(temp->value.name, name) == 0){
                 prevNode = temp;
                 break;
             }
             temp = temp->next;
         }
         if(prevNode == NULL){
-            printf("There are no countries with such name");
+            printf("There are no countries with such name\n");
         }
         else{
             Node* currNode = prevNode->next;
             prevNode->next = currNode->next;
-            printf("The country was successfully deleted");
+            printf("The country was successfully deleted\n");
         }
     }
 }
@@ -144,18 +132,79 @@ void printAllCountries(Node* head){
 
 }
 
+Node* findCountry(Node* head){
+    printf("Please, enter the country name:");
+    char* name = GetString();
+    while(head != NULL){
+        if(strcmp(head->value.name, name) == 0){
+            printCountry(head->value);
+            return head;
+        }
+        head = head->next;
+    }
+    printf("Country %s wasn't found", name);
+    return NULL;
+}
+
+void printChangeMenu(){
+    printf("___________________CHANGE_MENU___________________\n");
+    printf("1 - to change a country name\n");
+    printf("2 - to change a country population\n");
+    printf("3 - to change a country area\n");
+    printf("_________________________________________________\n");
+}
+
 void changeCountry(Node* head){
     int num = getCountriesQuantity(head);
     if(num == 0){
         printf("Nothing to change.");
     }
-    else{
-
-    }
     printf("There are %d countries", num);
-    printf("Please, enter the country number to change: ");
-
-
+    Node* node = findCountry(head);
+    if(node != NULL){
+        printChangeMenu();
+        int command;
+        int res = 0;
+        while(res == 0){
+            printf("Your command: ");
+            res = InputInt(&command);
+        }
+        if(command == 1){
+            printf("Please, enter the country name: ");
+            char* name = GetString();
+        }
+        else if(command == 2){
+            long population;
+            int res = 0;
+            while(res != 1){
+                printf("Please, enter the country population: ");
+                res = InputLong(&population);
+                if(res == 0){
+                    printf("This value should be digit!\n");
+                }
+                else if(res == -1){
+                    printf("This value should be positive!\n");
+                }
+            }
+        }
+        else if(command == 3){
+            long area;
+            res = 0;
+            while(res != 1){
+                printf("Please, enter the country area: ");
+                res = InputLong(&area);
+                if(res == 0){
+                    printf("This value should be digit!\n");
+                }
+                else if(res == -1){
+                    printf("This value should be positive!\n");
+                }
+            }
+        }
+        else{
+            printf("Wrong command");
+        }
+    }
 }
 
 void freeCountries(Node* head){

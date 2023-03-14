@@ -3,13 +3,6 @@
 #include"struct.h"
 #include"countries.c"
 
-void printChangeMenu(){
-    printf("___________________CHANGE_MENU___________________\n");
-    printf("1 - to change a country name\n");
-    printf("2 - to change a country area\n");
-    printf("3 - to change a country population\n");
-    printf("_________________________________________________\n");
-}
 
 void printMenu(){
     printf("_____________________MENU________________________\n");
@@ -32,37 +25,28 @@ int main(){
         int command = 0;
         int res = 0;
         while(res == 0){
+            printf("Your command: ");
             res = InputInt(&command);
         }
-        switch(command)
-        {
-            case 1:
-            {
-                Node* node = createNewNode(getCountry());
-                appendCountry(&head, node);
-                freeCountries(node);
-            }     
-            case 2:
-            {
-                changeCountry(head);
-            }  
-            case 3:
-            {
-                deleteCountry(&head);
-            }
-            case 4:
-            {
-                printAllCountries(head);
-            }
-            case 8:
-            {
-                freeCountries(head);
-                end = 1;
-            }
-            default:
-            {
-                printf("This command is incorrect!");
-            }
+        if(command == 1){
+            Node* node = createNewNode(getCountry());
+            appendCountry(&head, node);
+        }
+        else if(command == 2){
+            changeCountry(&head);
+        }
+        else if(command == 3){
+            deleteCountry(&head);
+        }
+        else if(command == 4){
+            printAllCountries(head);
+        }
+        else if(command == 5){
+            findCountry(head);
+        }
+        else if(command == 8){
+            freeCountries(head);
+            end = 1;
         }
     }
     return 0;

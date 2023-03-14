@@ -3,6 +3,35 @@
 #include<string.h>
 #include<ctype.h>
 
+char* StringInput()
+{
+    char* dev;
+    *dev = '\n';
+    FILE* file = stdin;
+    char chr;
+    char* str = (char*) malloc(sizeof(char));
+    int str_len = 1;
+    int end = 0;
+    //setbuf(file, NULL);
+    while (!end)
+    {
+        chr = fgetc(file);
+        if(chr == *dev || chr == '\n' || chr == EOF)
+        {
+            if(chr == '\n') *dev = '\n';
+            end = 1;
+            break;
+        }
+        if(!(str_len == 1 && chr == ' ')){
+            str[str_len - 1] = chr;
+            str_len++;
+            str = (char*) realloc(str, str_len);
+        }
+    }
+    str[str_len - 1] = '\0';
+    return str;
+}
+
 char* GetString()
 {
     int len = 0; // изначально строка пуста
@@ -26,13 +55,13 @@ char* GetString()
 
 int InputInt(int* val)
 {
+    
     char* str = GetString();
     for(int i = 0; i < strlen(str); i++)
     {
         if (!isdigit(str[i]) && !(i == 0 && str[0] == '-')) return 0;
     }
     *val = atoi(str);
-    free(str);
     if(*val > 0){
         return 1;
     }
@@ -47,7 +76,6 @@ int InputLong(long* val)
         if (!isdigit(str[i]) && !(i == 0 && str[0] == '-')) return 0;
     }
     *val = atoll(str);
-    free(str);
     return 1;
 }
 
