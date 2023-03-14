@@ -33,7 +33,10 @@ int InputInt(int* val)
     }
     *val = atoi(str);
     free(str);
-    return 1;
+    if(*val > 0){
+        return 1;
+    }
+    return -1;
 }
 
 int InputLong(long* val)
