@@ -1,17 +1,22 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include"struct.h"
+#include"countries.c"
 
-Node* createNewNode(char* name, long peopleNumb, long area){
-    Node* node = (Node*)malloc(sizeof(Node));
-    node->value.name = name;
-    node->value.area = area;
-    node->value.population = peopleNumb;
-    node->next = NULL;
-    return node;
+void printChangeMenu(){
+    printf("___________________CHANGE_MENU___________________\n");
+    printf("1 - to change a country name\n");
+    printf("2 - to change a country area\n");
+    printf("3 - to change a country population\n");
+    printf("_________________________________________________\n");
 }
 
 int main(){
-    createNewNode("tttt", 5, 6);
+    Node* node = createNewNode("tttt", 5, 6);
+    printCountry(node->value);
+    Node* head = NULL;
+    printChangeMenu();
+    appendCountry(head, node);
+    printAllCountries(head);
     return 0;
 }
