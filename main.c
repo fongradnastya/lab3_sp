@@ -12,11 +12,12 @@ void printChangeMenu(){
 }
 
 int main(){
-    Node* node = createNewNode("tttt", 5, 6);
+    
+    Node* node = createNewNode(getCountry());
     printCountry(node->value);
     Node* head = NULL;
     printChangeMenu();
-    appendCountry(head, node);
+    appendCountry(&head, node);
     printAllCountries(head);
     return 0;
 }

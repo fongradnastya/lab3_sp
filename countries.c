@@ -1,16 +1,44 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"struct.h"
+#include"input.c"
 
-Node* createNewNode(char* name, long peopleNumb, long area){
+Country getCountry()
+{
+    printf("Please, enter the country name: ");
+    char* name = GetString();
+    long population;
+    int res = 0;
+    while(res == 0){
+        printf("Please, enter the country population: ");
+        res = InputLong(&population);
+        if(res == 0){
+            printf("This value should be digit!\n");
+        }
+    }
+    long area;
+    res = 0;
+    while(res == 0){
+        printf("Please, enter the country area: ");
+        res = InputLong(&area);
+        if(res == 0){
+            printf("This value should be digit!\n");
+        }
+    }
+    Country newCountry;
+    newCountry.name = name;
+    newCountry.area = area;
+    newCountry.population = population;
+    return newCountry;
+}
+
+Node* createNewNode(Country country){
     Node* node = (Node*)malloc(sizeof(Node));
     if (node == NULL) {
         printf("Unpossible to allocate memory\n");
         exit(1);
     }
-    node->value.name = name;
-    node->value.area = area;
-    node->value.population = peopleNumb;
+    node->value = country;
     node->next = NULL;
     return node;
 }
@@ -36,12 +64,12 @@ int getCountriesQuantity(Node* head){
     return cnt;
 }
 
-void appendCountry(Node* head, Node* newNode){
-    if(head == NULL){
-        head = newNode;
+void appendCountry(Node** head, Node* newNode){
+    if(*head == NULL){
+        *head = newNode;
     }
     else{
-        Node* tail = getTail(head);
+        Node* tail = getTail(*head);
         tail->next = newNode;
     }
 }
@@ -49,20 +77,28 @@ void appendCountry(Node* head, Node* newNode){
 void deleteCountry(){
 }
 
+void printCountry(Country country){
+    printf("%s %d %d\n", country.name, country.population, country.area);
+}
+
+
 void printAllCountries(Node* head){
     if(head == NULL){
         printf("There are no countries yet\n");
     }
     else{
-        printf("__________________COUNTRIES____________________");
+        printf("__________________COUNTRIES______________________\n");
+        while(head != NULL){
+            printCountry(head->value);
+            head = head->next;
+        }
+        printf("_________________________________________________\n");
     }
     
 
 }
 
-void printCountry(Country country){
-    printf("%s %d %d\n", country.name, country.population, country.area);
-}
+
 
 void changeCountry(Node* head){
     int num = getCountriesQuantity(head);
