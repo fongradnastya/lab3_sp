@@ -1,16 +1,29 @@
+/*!
+ * \file structure.h
+ * \brief Заголовочный файл с описанием структуры
+ *
+ * Данный файл содержит в себе определение основных
+ * структур, используемых в программе.
+*/
+
 #ifndef WORK3_STRUCT_H
 #define WORK3_STRUCT_H
 
-
+/*!
+ * \brief Страна
+ */
 typedef struct{
-    char* name;
-    long population;
-    long area;
+    char* name; /*!< Название страны */
+    long population; /*!< Население страны */
+    long area; /*!< Общая площадь страны */
 }Country;
 
+/*!
+ * \brief Узел односвязного списка
+ */
 typedef struct Node{
-    Country value;
-    struct Node* next;
+    Country value; /*!< Значение узла */
+    struct Node* next; /*!< Ссылка на следующий узел */
 }Node;
 
 
