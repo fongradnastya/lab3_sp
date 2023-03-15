@@ -138,7 +138,7 @@ void deleteCountry(Node** head)
 void printCountry(Country country)
 {
     printf("Country: %s - ", country.name);
-    printf("population: %d people, area: %d units\n", country.population, country.area);
+    printf("population: %ld people, area: %ld units\n", country.population, country.area);
 }
 
 
@@ -335,7 +335,7 @@ void getTheMostPopulous(Node* head)
         }
         temp = temp->next;
     }
-    printf("Max population density is %d people per unit\n", maxDensity);
+    printf("Max population density is %ld people per unit\n", maxDensity);
     printf("Countries:\n");
     temp = head;
     while(temp != NULL)
