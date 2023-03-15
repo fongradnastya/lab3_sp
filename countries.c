@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"struct.h"
+#include"countries.h"
 #include"input.c"
 
 Country getCountry()
@@ -38,7 +39,8 @@ Country getCountry()
     return newCountry;
 }
 
-Node* createNewNode(Country country){
+Node* createNewNode(Country country)
+{
     Node* node = (Node*)malloc(sizeof(Node));
     if (node == NULL) {
         printf("Unpossible to allocate memory\n");
@@ -49,7 +51,8 @@ Node* createNewNode(Country country){
     return node;
 }
 
-Node* getTail(Node* head){
+Node* getTail(Node* head)
+{
     Node* temp = head;
     while(temp->next != NULL){
         temp = temp->next;
@@ -57,7 +60,8 @@ Node* getTail(Node* head){
     return temp;
 }
 
-int getCountriesQuantity(Node* head){
+int getCountriesQuantity(Node* head)
+{
     if(head == NULL){
         return 0;
     }
@@ -70,7 +74,8 @@ int getCountriesQuantity(Node* head){
     return cnt;
 }
 
-void appendCountry(Node** head, Node* newNode){
+void appendCountry(Node** head, Node* newNode)
+{
     if(*head == NULL){
         *head = newNode;
     }
@@ -80,7 +85,8 @@ void appendCountry(Node** head, Node* newNode){
     }
 }
 
-void deleteCountry(Node** head){
+void deleteCountry(Node** head)
+{
     Node* temp = *head;
     Node* prevNode = NULL;
     printf("Please, enter the country name:");
@@ -111,12 +117,15 @@ void deleteCountry(Node** head){
     }
 }
 
-void printCountry(Country country){
-    printf("%s %d %d\n", country.name, country.population, country.area);
+void printCountry(Country country)
+{
+    printf("Country: %s - ", country.name);
+    printf("population: %d people, area: %d units\n", country.population, country.area);
 }
 
 
-void printAllCountries(Node* head){
+void printAllCountries(Node* head)
+{
     if(head == NULL){
         printf("There are no countries yet\n");
     }
@@ -128,11 +137,10 @@ void printAllCountries(Node* head){
         }
         printf("_________________________________________________\n");
     }
-    
-
 }
 
-Node* findCountry(Node* head){
+Node* findCountry(Node* head)
+{
     printf("Please, enter the country name:");
     char* name = GetString();
     while(head != NULL){
@@ -146,7 +154,8 @@ Node* findCountry(Node* head){
     return NULL;
 }
 
-void printChangeMenu(){
+void printChangeMenu()
+{
     printf("___________________CHANGE_MENU___________________\n");
     printf("1 - to change a country name\n");
     printf("2 - to change a country population\n");
@@ -154,7 +163,8 @@ void printChangeMenu(){
     printf("_________________________________________________\n");
 }
 
-void changeCountry(Node** head){
+void changeCountry(Node** head)
+{
     Node* node = findCountry(*head);
     if(node != NULL){
         printChangeMenu();
@@ -205,7 +215,8 @@ void changeCountry(Node** head){
     }
 }
 
-void freeCountries(Node* head){
+void freeCountries(Node* head)
+{
     Node* current = head;
     Node* next;
     while (current != NULL){
@@ -216,7 +227,62 @@ void freeCountries(Node* head){
     }
 }
 
-void getTheMostPopulous(Node* head){
+Node* sort( Node* root )
+{
+    Node *new_root = NULL;
+    while ( root != NULL )
+    {
+        Node *node = root;
+        root = root->next;
+        if ( new_root == NULL || node->value.population < new_root->value.population)
+        {
+            node->next = new_root;
+            new_root = node;
+        }
+        else
+        {
+            Node *current = new_root;
+            while ( current->next != NULL && !( node->value.population < current->next->value.population ) )
+            {                   
+                current = current->next;
+            }                
+            node->next = current->next;
+            current->next = node;
+        }
+    }
+    return new_root;
+}
+
+void getHightPopulate(Node* head)
+{
+    long minPopulation;
+    int res = 0;
+    while(res != 1){
+        printf("Please, enter min population: ");
+        res = InputLong(&minPopulation);
+        if(res == 0){
+            printf("This value should be digit!\n");
+        }
+        else if(res == -1){
+            printf("This value should be positive!\n");
+        }  
+    }
+    Node* temp = head;
+    Node* highest = NULL;
+    while(temp != NULL){
+        if(temp->value.population >= minPopulation){
+            Node* newNode = createNewNode(temp->value);
+            appendCountry(&highest, newNode);
+        }
+        temp = temp->next;
+    }
+    printAllCountries(highest);
+    sort(highest);
+    printAllCountries(highest);
+}
+
+void getTheMostPopulous(Node* head)
+{
     long maxDensity = 0;
     Node* temp = head;
     while(temp != NULL){
@@ -232,28 +298,6 @@ void getTheMostPopulous(Node* head){
     while(temp != NULL){
         long density = temp->value.population / temp->value.area;
         if(density == maxDensity){
-            printCountry(temp->value);
-        }
-        temp = temp->next;
-    }
-}
-
-void getHightPopulate(Node* head){
-    long minPopulation;
-    int res = 0;
-    while(res != 1){
-        printf("Please, enter min population: ");
-        res = InputLong(&minPopulation);
-        if(res == 0){
-            printf("This value should be digit!\n");
-        }
-        else if(res == -1){
-            printf("This value should be positive!\n");
-        }  
-    }
-    Node* temp = head;
-    while(temp != NULL){
-        if(temp->value.population >= minPopulation){
             printCountry(temp->value);
         }
         temp = temp->next;
