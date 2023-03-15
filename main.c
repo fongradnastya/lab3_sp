@@ -4,7 +4,8 @@
 #include"countries.c"
 
 
-void printMenu(){
+void printMenu()
+{
     printf("_____________________MENU________________________\n");
     printf("1 - to add new country\n");
     printf("2 - to change a country\n");
@@ -20,37 +21,47 @@ void printMenu(){
 int main(){
     Node* head = NULL;
     int end = 0;
-    while(end == 0){
+    while(end == 0)
+    {
         printMenu();
         int command = 0;
         int res = 0;
-        while(res == 0){
+        while(res == 0)
+        {
             printf("Your command: ");
             res = InputInt(&command);
         }
-        if(command == 1){
+        if(command == 1)
+        {
             Node* node = createNewNode(getCountry());
             appendCountry(&head, node);
         }
-        else if(command == 2){
+        else if(command == 2)
+        {
             changeCountry(&head);
         }
-        else if(command == 3){
+        else if(command == 3)
+        {
             deleteCountry(&head);
         }
-        else if(command == 4){
+        else if(command == 4)
+        {
             printAllCountries(head);
         }
-        else if(command == 5){
+        else if(command == 5)
+        {
             findCountry(head);
         }
-        else if(command == 6){
+        else if(command == 6)
+        {
             getTheMostPopulous(head);
         }
-        else if(command == 7){
+        else if(command == 7)
+        {
             getHightPopulate(head);
         }
-        else if(command == 8){
+        else if(command == 8)
+        {
             freeCountries(head);
             end = 1;
         }
